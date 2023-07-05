@@ -1,8 +1,9 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime, MetaData, Enum
+
+from sqlalchemy import Column, DateTime, Enum, Integer, MetaData, String
 from sqlalchemy.orm import declarative_base
 
-from src.tasks.schemas import TaskStatus, TaskPriority
+from src.tasks.schemas import TaskPriority, TaskStatus
 
 metadata = MetaData()
 
@@ -10,6 +11,10 @@ Base = declarative_base(metadata=metadata)
 
 
 class User(Base):
+    """
+    User model representing the 'users' table.
+    """
+
     __tablename__ = "users"
     metadata = metadata
 
@@ -19,6 +24,10 @@ class User(Base):
 
 
 class Task(Base):
+    """
+    Task model representing the 'tasks' table.
+    """
+
     __tablename__ = "tasks"
     metadata = metadata
 
