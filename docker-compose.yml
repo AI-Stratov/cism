@@ -1,0 +1,39 @@
+version: '3.8'
+
+volumes:
+  data:
+  kafka_data:
+    driver: local
+
+services:
+  kafka:
+    image: bitnami/kafka
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    env_file:
+      - .env
+    volumes:
+      - kafka_data:/bitnami/kafka/data
+  postgres:
+    image: postgres:15.3
+    container_name: db
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - kafka
+      - postgres
